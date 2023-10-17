@@ -38,3 +38,5 @@ C:\Users\Stefan Eriksson\source\repos\NumbersService\WebApi\obj\Debug\WebApi.csp
 C:\Users\Stefan Eriksson\source\repos\NumbersService\WebApi\obj\Debug\WebApi.csproj.CopyComplete
 C:\Users\Stefan Eriksson\source\repos\NumbersService\WebApi\obj\Debug\WebApi.exe
 C:\Users\Stefan Eriksson\source\repos\NumbersService\WebApi\obj\Debug\WebApi.pdb
+C:\Users\Stefan Eriksson\source\repos\NumbersService\WebApi\bin\Debug\SimpleInjector.dll
+C:\Users\Stefan Eriksson\source\repos\NumbersService\WebApi\bin\Debug\SimpleInjector.xml
