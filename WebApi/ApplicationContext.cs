@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace WebApi
 {
-    public static class ApplicationContext
+    public class ApplicationContext
     {
         // Holder of global data and is using lock for thread safe.
 
-        static List<int> _usedNumbers = new List<int>();
-        static object _lock = new object();
+        List<int> _usedNumbers = new List<int>();
+        object _lock = new object();
 
-        public static List<int> UsedNumbers
+        public List<int> UsedNumbers
         {
             get
             {

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
 using Owin;
+using SimpleInjector;
+using WebApi.Services;
 using static System.Net.WebRequestMethods;
 
 namespace WebApi
@@ -18,6 +20,14 @@ namespace WebApi
 
     internal class Program
     {
+        public static readonly Container Container;
+
+        static Program()
+        {
+            Container = new Container();
+            SetupContainer();
+        }
+
         static void Main(string[] args)
         {
             var name = nameof(WebApi);
@@ -30,6 +40,15 @@ namespace WebApi
             {
                 Thread.Sleep(Timeout.Infinite);
             }
+        }
+
+        static void SetupContainer()
+        {
+            Container.Register<IPostNumberService, PostNumberService>();
+            Container.Register<IGetAverageService, GetAverageService>();
+            Container.Register<ApplicationContext>(Lifestyle.Singleton);
+
+            Container.Verify();
         }
     }
 }
