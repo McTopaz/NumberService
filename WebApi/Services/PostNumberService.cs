@@ -22,7 +22,7 @@ namespace WebApi.Services
             if (!_applicationContext.Numbers.TryGetValue(number, out _))
             {
                 _applicationContext.Numbers.Add(number, true);
-                _applicationContext.NumberCount++;
+                _applicationContext.Counter++;
                 _applicationContext.Sum += number;
                 return;
             }
