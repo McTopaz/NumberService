@@ -15,21 +15,27 @@ namespace WebApi.Services
             _applicationContext = applicationContext;
         }
 
-        public void InsertNumber(int number)
+        public void InsertNumber(Dictionary<string, int> dict)
         {
-            if (_applicationContext.UsedNumbers.Contains(number))
+            var number = dict.First().Value;
+
+            if (!_applicationContext.Numbers.TryGetValue(number, out _))
+            {
+                _applicationContext.Numbers.Add(number, true);
+                _applicationContext.NumberCount++;
+                _applicationContext.Sum += number;
+                return;
+            }
+            else
             {
                 var msg = $"The number {number} is already posted and is rejected";
                 throw new Exception(msg);
             }
-
-            _applicationContext.UsedNumbers.Add(number);
         }
     }
 
     public interface IPostNumberService
     {
-        void InsertNumber(int number);
+        void InsertNumber(Dictionary<string, int> dict);
     }
-
 }
