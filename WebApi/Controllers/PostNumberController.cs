@@ -19,14 +19,15 @@ namespace WebApi.Controllers
         // POST: http://localhost:9000/api/postnumber/
         public IHttpActionResult Post(Dictionary<string, int> dict)
         {
-            try
+            var result = _postNumberService.InsertNumber(dict);
+
+            if (result.success)
             {
-                _postNumberService.InsertNumber(dict);
                 return Ok();
             }
-            catch (Exception e)
+            else
             {
-                return BadRequest(e.Message);
+                return BadRequest(result.message);
             }
         }
     }
