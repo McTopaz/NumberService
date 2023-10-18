@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace WebApi.Services
 {
@@ -15,7 +17,7 @@ namespace WebApi.Services
             _applicationContext = applicationContext;
         }
 
-        public void InsertNumber(Dictionary<string, int> dict)
+        public (bool success, string message) InsertNumber(Dictionary<string, int> dict)
         {
             var number = dict.First().Value;
 
@@ -24,7 +26,7 @@ namespace WebApi.Services
                 if (_applicationContext.Numbers.TryGetValue(number, out _))
                 {
                     var msg = $"The number {number} is already posted and is rejected.";
-                    throw new Exception(msg);
+                    return (false, msg);
 
                 }
                 else if (_applicationContext.Numbers.TryAdd(number, true))
@@ -32,11 +34,12 @@ namespace WebApi.Services
                     _applicationContext.Numbers.TryAdd(number, true);
                     _applicationContext.Counter++;
                     _applicationContext.Sum += number;
+                    return (true, string.Empty);
                 }
                 else
                 {
                     var msg = $"Unable to store the number {number}.";
-                    throw new Exception(msg);
+                    return (false, msg);
                 }
             }
         }
@@ -44,6 +47,6 @@ namespace WebApi.Services
 
     public interface IPostNumberService
     {
-        void InsertNumber(Dictionary<string, int> dict);
+        (bool success, string message) InsertNumber(Dictionary<string, int> dict);
     }
 }
