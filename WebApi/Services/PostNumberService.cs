@@ -19,22 +19,25 @@ namespace WebApi.Services
         {
             var number = dict.First().Value;
 
-            if (_applicationContext.Numbers.TryGetValue(number, out _))
+            lock (_applicationContext)
             {
-                var msg = $"The number {number} is already posted and is rejected.";
-                throw new Exception(msg);
-                
-            }
-            else if (_applicationContext.Numbers.TryAdd(number, true))
-            {
-                _applicationContext.Numbers.TryAdd(number, true);
-                _applicationContext.Counter++;
-                _applicationContext.Sum += number;
-            }
-            else
-            {
-                var msg = $"Unable to store the number {number}.";
-                throw new Exception(msg);
+                if (_applicationContext.Numbers.TryGetValue(number, out _))
+                {
+                    var msg = $"The number {number} is already posted and is rejected.";
+                    throw new Exception(msg);
+
+                }
+                else if (_applicationContext.Numbers.TryAdd(number, true))
+                {
+                    _applicationContext.Numbers.TryAdd(number, true);
+                    _applicationContext.Counter++;
+                    _applicationContext.Sum += number;
+                }
+                else
+                {
+                    var msg = $"Unable to store the number {number}.";
+                    throw new Exception(msg);
+                }
             }
         }
     }

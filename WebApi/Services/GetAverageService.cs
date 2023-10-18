@@ -17,8 +17,14 @@ namespace WebApi.Services
 
         public Dictionary<string, string> GetAverage()
         {
-            var sum = _applicationContext.Sum;
-            var count = _applicationContext.Counter;
+            var sum = 0;
+            var count = 0;
+
+            lock (_applicationContext)
+            {
+                sum = _applicationContext.Sum;
+                count = _applicationContext.Counter;
+            }
 
             // When there are no numbers posted.
             // Prevent DivideByZeroException or NaN.
