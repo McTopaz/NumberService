@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
@@ -123,6 +124,38 @@ namespace UnitTest
             var result = gac.GetAverage();
 
             Assert.AreEqual("0,0000", result.First().Value);
+        }
+
+        [TestMethod]
+        public void TwoDifferentNumbersSimultaneous_OneAverage()
+        {
+            var dict1 = new Dictionary<string, int>()
+            {
+                { "number", 2 }
+            };
+
+            var dict2 = new Dictionary<string, int>()
+            {
+                { "number", 3 }
+            };
+
+            var ac = new ApplicationContext();
+            var pns1 = new PostNumberService(ac);
+            var pns2 = new PostNumberService(ac);
+            var gas = new GetAverageService(ac);
+
+            var thread1 = new Thread(() => pns1.InsertNumber(dict1));
+            var thread2 = new Thread(() => pns2.InsertNumber(dict2));
+
+            thread1.Start();
+            thread2.Start();
+
+            thread1.Join();
+            thread2.Join();
+
+            var result = gas.GetAverage();
+
+            Assert.AreEqual("2,5000", result.First().Value);
         }
     }
 }
