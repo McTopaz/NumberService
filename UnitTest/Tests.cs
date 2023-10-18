@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Results;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApi;
-using WebApi.Controllers;
 using WebApi.Services;
 
 namespace UnitTest
@@ -16,7 +13,6 @@ namespace UnitTest
     [TestClass]
     public class Tests
     {
-
         [TestMethod]
         public void TwoDifferentNumbers_OneAverage()
         {
@@ -87,13 +83,13 @@ namespace UnitTest
             };
 
             var ac = new ApplicationContext();
-            var pnc = new PostNumberService(ac);
-            var gac = new GetAverageService(ac);
+            var pns = new PostNumberService(ac);
+            var gas = new GetAverageService(ac);
 
-            pnc.InsertNumber(dict1);
-            pnc.InsertNumber(dict2);
-            pnc.InsertNumber(dict3);
-            var result = gac.GetAverage();
+            pns.InsertNumber(dict1);
+            pns.InsertNumber(dict2);
+            pns.InsertNumber(dict3);
+            var result = gas.GetAverage();
 
             Assert.AreEqual("23,6667", result.First().Value);
         }
@@ -107,11 +103,11 @@ namespace UnitTest
             };
 
             var ac = new ApplicationContext();
-            var pnc = new PostNumberService(ac);
-            var gac = new GetAverageService(ac);
+            var pns = new PostNumberService(ac);
+            var gas = new GetAverageService(ac);
 
-            pnc.InsertNumber(dict1);
-            var result = gac.GetAverage();
+            pns.InsertNumber(dict1);
+            var result = gas.GetAverage();
 
             Assert.AreEqual("2,0000", result.First().Value);
         }
@@ -120,8 +116,8 @@ namespace UnitTest
         public void NoNumbers_NoAverage()
         {
             var ac = new ApplicationContext();
-            var gac = new GetAverageService(ac);
-            var result = gac.GetAverage();
+            var gas = new GetAverageService(ac);
+            var result = gas.GetAverage();
 
             Assert.AreEqual("0,0000", result.First().Value);
         }
