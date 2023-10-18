@@ -7,10 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Owin.Hosting;
-using Owin;
 using SimpleInjector;
 using WebApi.Services;
-using static System.Net.WebRequestMethods;
 
 namespace WebApi
 {
@@ -47,7 +45,6 @@ namespace WebApi
             Container.Register<IPostNumberService, PostNumberService>();
             Container.Register<IGetAverageService, GetAverageService>();
             Container.Register<ApplicationContext>(Lifestyle.Singleton);
-
             Container.Verify();
         }
     }
